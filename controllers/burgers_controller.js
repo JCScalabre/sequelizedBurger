@@ -36,7 +36,6 @@ router.post("/burgers/create", function(req, res) {
 //   })
 // })
 
-// put route -> back to index
 router.put("/burgers/update", function(req, res) {
   db.Burger.update({
     devoured: true
