@@ -7,16 +7,21 @@ var app = express();
 app.use(express.static(__dirname + "/public"));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(
+	bodyParser.urlencoded({
+		extended: false
+	})
+);
 // override with POST having ?_method=DELETE
 app.use(methodOverride("_method"));
 var exphbs = require("express-handlebars");
 
-app.engine("handlebars", exphbs({
-  defaultLayout: "main"
-}));
+app.engine(
+	"handlebars",
+	exphbs({
+		defaultLayout: "main"
+	})
+);
 app.set("view engine", "handlebars");
 
 var routes = require("./controllers/burgers_controller");
@@ -25,6 +30,11 @@ app.use("/", routes);
 app.use("/update", routes);
 app.use("/create", routes);
 
-// listen on port 3000
+var db = require("./models");
 var port = process.env.PORT || 3000;
-app.listen(port);
+
+db.sequelize.sync().then(function() {
+	app.listen(port, function() {
+		console.log("App listening on PORT " + port);
+	});
+});
