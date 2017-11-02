@@ -21,7 +21,11 @@ router.post("/burgers/create", function(req, res) {
     burger_name: req.body.burger_name
   }).then(function() {
     res.redirect("/");
-  });
+  }).catch(function(msg) {
+    // res.json("Error you didn't enter a burger")
+    console.log("Error Message: " + msg.errors[0].message);
+    res.redirect("/")
+  })
 });
 
 // router.put("/burgers/rating", function(req, res) {
